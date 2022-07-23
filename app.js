@@ -4,14 +4,15 @@ const people = require('./routes/People');
 const connectDB = require('./db/connect');
 require('dotenv').config();
 const notFound = require('./middleware/not-found');
+const errorHandler = require('./middleware/error-handler');
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use('/api/v1/people', people);
 
 // error middleware
 app.use(notFound);
-
+app.use(errorHandler);
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
